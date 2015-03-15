@@ -33,48 +33,67 @@
 
 @section MainContent
 {
-    <form action="/command" method="POST" enctype="multipart/form-data">
-        <div class="grid">
-            <div class="row">
-                <div class="span3">
-                    <label>Command</label>
-                    <input type="text" name="File">
-                </div>
-                <div class="span3">
-                    <label>Arguments</label>
-                    <input type="text" name="Arguments">
-                </div>
-                <div class="span3">
-                    <label>&nbsp</label>
-                    <input id="submit" class="bg-blue fg-white" type="submit" value="Submit">
+<style>
+    #chatwindow {
+        position: relative;
+        height: 400px; /* if you wish to use all of your space, use
+        position:absolute; top:0;left:0;right:0;bottom:0;
+        or drop the chatdwindow div */
+    }
+
+    #messagewindow {
+        position: absolute;
+        left: 0;
+        right: 0;
+        border: 1px solid #000;
+    }
+
+    #messagewindow {
+        overflow: auto;
+        top: 0;
+        bottom: 3em;
+    }
+
+    #inputcontainer {
+        position: absolute;
+        display: block;
+        bottom: 0;
+        height: 1em;
+        padding: .5em;
+    }
+
+    #inputcontainer > p {
+        margin: 0;
+    }
+</style>
+
+<div id="chatwindow">
+    <div id="messagewindow">
+        @if (Model != null) {
+            @Model.output
+            @Model.error
+        }
+    </div>
+    <div id="inputcontainer">
+        <form action="/command" method="POST" enctype="multipart/form-data">
+            <div class="grid">
+                <div class="row">
+                    <div class="span3">
+                        <label>Command</label>
+                        <input type="text" name="File" autofocus>
+                    </div>
+                    <div class="span3">
+                        <label>Arguments</label>
+                        <input type="text" name="Arguments">
+                    </div>
+                    <div class="span3">
+                        <label>&nbsp</label>
+                        <input id="submit" class="bg-blue fg-white" type="submit" value="Submit">
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
+</div>
 
-    @if (Model != null) {
-        @if (Model.outputTable != null) {
-            <table id="Output" class="table striped">
-                <tbody>
-                    @foreach (string str in Model.outputTable) {
-                        <tr>
-                            <td class="right">@str</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        <br />
-        @if (Model.errorTable != null) {
-            <table id="Error" class="table striped">
-                <tbody>
-                    @foreach (string str in Model.errorTable) {
-                        <tr>
-                            <td class="right">@str</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-    }
 }
